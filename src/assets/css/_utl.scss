@@ -1,0 +1,28 @@
+// color
+$c-main: #66159b;
+$c-text: #333;
+$c-gray: #d1d5db;
+$c-shadow: rgba(0, 0, 0, 0.16);
+
+// font
+$ratio: 1.618;
+@mixin fs-0 {
+  font-size: 1.4rem;
+}
+@mixin fs-1 {
+  font-size: 1.6rem;
+}
+@mixin fs-2 {
+  font-size: 1.6rem * $ratio;
+}
+@mixin fs-3 {
+  font-size: 1.6rem * $ratio * $ratio;
+}
+
+// utl
+@mixin center($direction: row) {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: $direction;
+}
