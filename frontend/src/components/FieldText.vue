@@ -1,12 +1,12 @@
 <template>
   <div class="text-input">
     <div v-if="label" class="label">{{ label }}</div>
-    <input type="text" @input="handleChange" />
+    <input type="text" @input="handleChange" :value="modelValue" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
@@ -16,22 +16,22 @@ export default defineComponent({
     },
     label: {
       type: String,
-      default: "",
+      default: '',
     },
   },
-  emits: ["update:modelValue"],
+  emits: ['update:modelValue'],
   setup(_, context) {
     const handleChange = (e: Event) => {
       if (!(e.target instanceof HTMLTextAreaElement)) {
-        return;
+        return
       }
-      context.emit("update:modelValue", e.target.value);
-    };
+      context.emit('update:modelValue', e.target.value)
+    }
     return {
       handleChange,
-    };
+    }
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>

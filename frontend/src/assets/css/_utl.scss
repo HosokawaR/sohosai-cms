@@ -1,22 +1,47 @@
 // color
 $c-main: #66159b;
+$c-secondary: #bebac4;
+$c-accent: #5e5d38;
+$c-main-dark: #371f46;
+$c-main-dark2: #442557;
+$c-main-light: #664979;
 $c-text: #333;
-$c-gray: #d1d5db;
+$c-text-sub: #969696;
+$c-gray: #dfdce4;
+$c-gray-light: rgb(206, 206, 206);
+$c-gray-dark: #424042;
+$c-white: #fff;
 $c-shadow: rgba(0, 0, 0, 0.16);
 
 // font
-$ratio: 1.618;
+$ratio: 1.4;
 @mixin fs-0 {
   font-size: 1.4rem;
+}
+@mixin fs-0b {
+  font-size: 1.4rem;
+  font-weight: bold;
 }
 @mixin fs-1 {
   font-size: 1.6rem;
 }
+@mixin fs-1b {
+  font-size: 1.6rem;
+  font-weight: bold;
+}
 @mixin fs-2 {
   font-size: 1.6rem * $ratio;
 }
+@mixin fs-2b {
+  font-size: 1.6rem * $ratio;
+  font-weight: bold;
+}
 @mixin fs-3 {
   font-size: 1.6rem * $ratio * $ratio;
+}
+@mixin fs-3b {
+  font-size: 1.6rem * $ratio * $ratio;
+  font-weight: bold;
 }
 
 // utl
@@ -26,3 +51,7 @@ $ratio: 1.618;
   justify-content: center;
   flex-direction: $direction;
 }
+@mixin clickable {
+  cursor: pointer;
+}
+

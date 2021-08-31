@@ -1,14 +1,14 @@
 <template>
   <nav class="breadcrumbs">
     <div v-for="(nav, i) in navigations" :key="nav.path" class="crumb">
-      <a :href="nav.path">{{ nav.label() }}</a>
+      <a :href="nav.path">{{ nav.label }}</a>
       <span v-if="i < navigations.length - 1">&gt;</span>
     </div>
   </nav>
 </template>
 
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   props: {
@@ -17,7 +17,7 @@ export default defineComponent({
       required: true,
     },
   },
-});
+})
 </script>
 
 <style lang="scss" scoped>
@@ -25,6 +25,13 @@ export default defineComponent({
   @include center;
   justify-content: flex-start;
   width: 100%;
+  padding: 2rem 0;
+  color: $c-gray-dark;
+}
+a {
+  &:hover {
+    text-decoration: underline;
+  }
 }
 span {
   padding: 0 1rem;

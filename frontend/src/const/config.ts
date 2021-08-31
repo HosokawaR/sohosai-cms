@@ -1,10 +1,34 @@
 export const paths = Object.freeze({
+  top: {
+    label: () => 'トップ',
+    path: () => '/',
+  },
+  signin: {
+    label: () => 'サインイン',
+    path: () => '/signin',
+  },
+  signout: {
+    label: () => 'サインアウト',
+    path: () => '/signout',
+  },
   contents: {
-    label: () => "マイコンテンツ管理",
-    path: "/my-content",
+    label: () => 'マイコンテンツ管理',
+    path: () => '/contents',
   },
-  article: {
-    label: () => "2021/08/27 0:22 作成の記事",
-    path: "/my-content/article",
+  postedContents: {
+    label: () => 'コンテンツ一覧',
+    path: () => '/posted-contents',
   },
-});
+  editArticle: {
+    label: (title: string) => title,
+    path: (id: string) => `/contents/${id}/edit`,
+  },
+  auditArticle: {
+    label: (title: string) => title,
+    path: (id: string) => `/contents/${id}/audit`,
+  },
+  reflectAuthority: {
+    label: '権限更新',
+    path: () => '/reflect-authority',
+  },
+})
