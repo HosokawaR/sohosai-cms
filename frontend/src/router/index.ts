@@ -1,18 +1,25 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { paths } from '@/const/config'
+import AuditArticle from '@/components/AuditArticle.vue'
+import Contact from '@/components/Contact.vue'
+import CreateAricle from '../components/EditArticle.vue'
+import Faq from '@/components/Faq.vue'
+import firebase from 'firebase'
 import Layout from '../components/Layout.vue'
 import MyContents from '../components/MyContents.vue'
-import CreateAricle from '../components/EditArticle.vue'
-import Signin from '@/components/Signin.vue'
-import firebase from 'firebase'
-import { paths } from '@/const/config'
 import PostedContents from '@/components/PostedContents.vue'
-import AuditArticle from '@/components/AuditArticle.vue'
 import ReflectAuthority from '@/components/ReflectAuthority.vue'
+import Signin from '@/components/Signin.vue'
+import Top from '@/components/Top.vue'
 
 const routes: Array<RouteRecordRaw> = [
   {
     path: paths.signin.path(),
     component: Signin,
+  },
+  {
+    path: paths.top.path(),
+    component: Top,
   },
   {
     path: '/',
@@ -37,6 +44,14 @@ const routes: Array<RouteRecordRaw> = [
         path: paths.contents.path() + '/:id/audit',
         component: AuditArticle,
         meta: { requireAuth: true, requireAuditor: true },
+      },
+      {
+        path: paths.contact.path(),
+        component: Contact,
+      },
+      {
+        path: paths.faq.path(),
+        component: Faq,
       },
     ],
   },

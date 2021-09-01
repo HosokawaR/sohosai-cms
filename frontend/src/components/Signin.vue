@@ -1,7 +1,9 @@
 <template>
   <div class="signin">
-    ログイン画面
     <div id="firebaseui-auth-container"></div>
+    <div class="grand">
+      <div class="inner">※「tsukuba.ac.jp」で終わるメールアドレスをご使用ください。</div>
+    </div>
   </div>
 </template>
 
@@ -21,6 +23,17 @@ export default defineComponent({
       ui.start('#firebaseui-auth-container', {
         signInOptions: [firebase.auth.EmailAuthProvider.PROVIDER_ID],
         signInSuccessUrl: paths.contents.path(),
+        callbacks: {
+          signInSuccessWithAuthResult: (authResult) => {
+            const user = authResult.user
+            console.log("ログイン成功");
+            if (authResult.additionalUserInfo.isNewUser) {
+              console.log("メール送信");
+              user.sendEmailVerification();
+            }
+            return true;
+          }
+        }
       })
     })
   },
@@ -28,8 +41,28 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
-input {
-  padding: 1rem;
-  border: 1px solid $c-gray;
+.signin {
+  @include center;
+  width: 100%;
+  height: 100vh;
+  padding-bottom: 20vh;
+  background-color: $c-base;
+}
+#firebaseui-auth-container {
+  width: 100%;
+}
+.grand {
+  @include center;
+  position: absolute;
+  top: 40vh;
+  width: 100%;
+  width: clamp(25rem, 40vw, 50rem);
+  height: clamp(25rem, 40vw, 50rem);
+  border-radius: 100vw;
+  background-color: $c-main;
+}
+.inner {
+  padding: 10%;
+  color: $c-white;
 }
 </style>

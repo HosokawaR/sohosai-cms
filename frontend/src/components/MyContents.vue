@@ -2,12 +2,22 @@
   <div class="my-contents">
     <Breadcrumbs :navigations="navigations" />
     <Title title="マイコンテンツ管理" />
-    <div>記事投稿</div>
-    <div>ブログのように sohosai.com 上に記事を投稿できます。</div>
-    <div v-for="article in articles" :key="article.title">
-      <CardArticle :article="article" action="編集" @click="handleEditArticle"/>
+    <div class="heading">記事投稿</div>
+    <div class="description">
+      <p>ブログのように sohosai.com 上に記事を投稿できます。</p>
     </div>
-    <Button @click="handleCreateArticle" text="新しい記事を申請する" />
+    <div v-for="article in articles" :key="article.title">
+      <CardArticle :article="article" action="編集" @click="handleEditArticle" />
+    </div>
+    <Button class="create-button" @click="handleCreateArticle" text="新しい記事を作成する" />
+    <div class="heading">URL 掲載申請</div>
+    <div class="description">
+      <p>
+        sohosai.com 上に企画ページへの URL
+        を掲載します。すでに独自のページをご用意している企画者様はこちらをご利用ください。
+        <br />※現在準備中
+      </p>
+    </div>
   </div>
 </template>
 
@@ -32,11 +42,12 @@ export default defineComponent({
     Breadcrumbs,
     Button,
     CardArticle,
-    Title
+    Title,
   },
   async setup() {
     const router = useRouter()
     const user = getUser()
+    if (!user) return;
     const navigations = ref([
       { label: paths.top.label(), path: paths.top.path() },
       { label: paths.contents.label(), path: paths.contents.path() },
@@ -50,11 +61,12 @@ export default defineComponent({
         contentHtml: '',
         updateAt: now,
         createAt: now,
-        authorId: user?.uid || '',
+        authorId: user.uid,
+        state: "editable"
       }
       const ref = await firebase
         .firestore()
-        .collection(`contents/${user?.uid}/articles`)
+        .collection(`contents/${user.uid}/articles`)
         .doc()
       ref.set({ ...doc, id: ref.id })
       router.push(paths.editArticle.path(ref.id))
@@ -73,4 +85,14 @@ export default defineComponent({
 </script>
 
 <style lang="scss" scoped>
+.heading {
+  @include fs-2;
+  margin: 2rem 0 1rem;
+}
+.description {
+  margin-bottom: 2rem;
+}
+.create-button {
+  margin-top: 2rem;
+}
 </style>

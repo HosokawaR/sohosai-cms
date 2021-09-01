@@ -22,7 +22,7 @@ export default defineComponent({
   emits: ['update:modelValue'],
   setup(_, context) {
     const handleChange = (e: Event) => {
-      if (!(e.target instanceof HTMLTextAreaElement)) {
+      if (!(e.target instanceof HTMLInputElement)) {
         return
       }
       context.emit('update:modelValue', e.target.value)
@@ -41,9 +41,13 @@ export default defineComponent({
 input {
   width: 100%;
   padding: 1rem;
-  border: 1px solid $c-gray;
+  border: 1px solid $c-gray-dark;
+  border-radius: 0.4rem;
   &:focus {
     border-color: $c-main;
   }
+}
+.label {
+  margin-bottom: 1rem;
 }
 </style>

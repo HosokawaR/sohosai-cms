@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@mdi/js": "^5.9.55",
+    "@types/sanitize-html": "^2.3.2",
     "@vueup/vue-quill": "^1.0.0-beta.7",
     "@vueuse/core": "^6.0.0",
     "@vueuse/firebase": "^6.0.0",
@@ -17,7 +18,9 @@
     "core-js": "^3.6.5",
     "firebase": "^8.8.1",
     "firebaseui": "^5.0.0",
+    "loaders.css": "^0.1.2",
     "mdi-vue": "^3.0.7",
+    "sanitize-html": "^2.4.0",
     "vue": "^3.0.0",
     "vue-material": "^1.0.0-beta-15",
     "vue-router": "^4.0.0-0",

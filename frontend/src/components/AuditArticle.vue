@@ -2,17 +2,16 @@
   <div class="audit-article">
     <Breadcrumbs :navigations="navigations" />
     <div class="title">{{ article.title }}</div>
-    <div class="content" v-html="article.contentHtml"></div>
+    <div class="content" v-html="sanitizedHtml"></div>
   </div>
 </template>
 
 <script lang="ts">
-import { paths } from '@/const/config'
-import { defineComponent, ref } from 'vue'
-import Breadcrumbs from './Breadcrumbs.vue'
-import firebase from 'firebase'
 import 'firebase/firestore'
+import { defineComponent, ref } from 'vue'
 import { getArticleById } from '@/utls/getArticleById'
+import { paths } from '@/const/config'
+import { sanitizeHtml } from '@/utls/sanitizeHtml'
 import { useRoute } from 'vue-router'
 
 export default defineComponent({
@@ -20,6 +19,7 @@ export default defineComponent({
     const route = useRoute()
     const articleId = String(route.params.id)
     const article = await getArticleById(articleId)
+    const sanitizedHtml = sanitizeHtml(article.contentHtml)
     const navigations = ref([
       { label: paths.contents.label(), path: paths.contents.path() },
       {
@@ -30,6 +30,7 @@ export default defineComponent({
     return {
       navigations,
       article,
+      sanitizedHtml,
     }
   },
 })

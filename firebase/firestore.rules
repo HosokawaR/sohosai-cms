@@ -1,9 +1,29 @@
-rules_version = '2';
+rules_version = "2";
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /{document=**} {
-      allow read, write: if
-          request.time < timestamp.date(2021, 9, 26);
+
+    function owner(userId) {
+      return request.auth != null
+          && request.auth.uid == userId;
+    }
+    function auditor() {
+      return request.auth.token.auditor == true;
+    }
+    function canEdit(userId) {
+      return (resource.data.state == "editable")
+    }
+    function validState(userId) {
+      return request.resource.data.state == "editable"
+    }
+
+    // コンテンツの種類ごとの作成期限・編集期限を設ける
+    match /contents/{userId}/articles/{article} {
+      allow write: if owner(userId) && validState(userId);
+      allow read: if owner(userId); 
+    }
+
+    match /{path=**}/articles/{article} {
+      allow write, read: if auditor();
     }
   }
 }

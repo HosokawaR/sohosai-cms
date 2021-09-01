@@ -1,12 +1,25 @@
 <template>
-  <Suspense>
-    <template #default>
-      <router-view />
+  <router-view v-slot="{ Component }">
+    <template v-if="Component">
+      <suspense>
+        <component :is="Component"></component>
+        <template #fallback>
+          <Loading />
+        </template>
+      </suspense>
     </template>
-    <template #fallback>
-      <div>Loading...</div>
-    </template>
-  </Suspense>
+  </router-view>
 </template>
 
-<style lang="scss"></style>
+<script lang="ts">import { defineComponent } from "vue-demi";
+import Loading from "./components/ScreenLoading.vue";
+
+export default defineComponent({
+  components: {
+    Loading
+  }
+})
+</script>
+
+<style lang="scss" scoped>
+</style>

@@ -1,25 +1,37 @@
 import firebase from 'firebase'
 
-export type ContentCategory = 'general'
+export type ContentCategoryValue =
+  | 'general'
+  | 'academic'
+  | 'art'
+  | 'stage'
+  | 'other'
 
-export type Ariticle = {
-  id: string
-  title: string
-  contentHtml: string
-  category?: ContentCategory
-  createAt: Date
-  updateAt: Date
-  authorId: string
+export type ContentState = 'editable' | 'examined' | 'verified' | 'rejection'
+
+export type ContentCategory = {
+  value: ContentCategoryValue
+  label: string
+  deadline: Date
 }
 
-export type FireStoreAriticle = {
+type CommonAriticle = {
   id: string
   title: string
   contentHtml: string
-  category?: ContentCategory
+  category?: ContentCategoryValue
+  authorId: string
+  state: ContentState
+}
+
+export type Ariticle = CommonAriticle & {
+  createAt: Date
+  updateAt: Date
+}
+
+export type FireStoreAriticle = CommonAriticle & {
   createAt: firebase.firestore.Timestamp
   updateAt: firebase.firestore.Timestamp
-  authorId: string
 }
 
 export type FunctionsResponse = {

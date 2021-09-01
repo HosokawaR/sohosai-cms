@@ -1,7 +1,5 @@
 <template>
-  <div class="title">
-    {{title}}
-  </div>
+  <div class="title">{{ title }}</div>
 </template>
 
 <script lang="ts">
@@ -11,16 +9,15 @@ export default defineComponent({
   props: {
     title: {
       type: String,
-      required: true
-    }
-  }
+      required: true,
+    },
+  },
 })
 </script>
 
 <style lang="scss" scoped>
 .title {
   @include fs-3;
-  color: $c-gray-dark;
+  color: $c-text-sub;
 }
 </style>
-

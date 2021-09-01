@@ -26,7 +26,7 @@ export default defineComponent({
   justify-content: flex-start;
   width: 100%;
   padding: 2rem 0;
-  color: $c-gray-dark;
+  color: $c-text-sub;
 }
 a {
   &:hover {
