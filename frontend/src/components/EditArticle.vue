@@ -109,8 +109,6 @@ export default defineComponent({
         category: category.value,
         contentHtml: contentHtml.value,
       }
-      console.log(newArticle)
-
       await updateArticleByUserAndId(newArticle, user.uid)
       saving.value = false
       saveButtonText.value = '保存完了'
@@ -161,6 +159,10 @@ export default defineComponent({
   ::v-deep(img) {
     text-align: center;
     max-width: 100%;
+  }
+  ::v-deep(iframe) {
+    width: clamp(1px, 60rem, 100%);
+    height: 60rem / 16 * 9;
   }
 }
 

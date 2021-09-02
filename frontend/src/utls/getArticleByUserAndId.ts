@@ -23,8 +23,6 @@ export const getArticleByUserAndId = async (
     const url = await bodyRef.getDownloadURL()
     const response = await fetch(url)
     const text = await response.text()
-    console.log(text)
-
     article.contentHtml = text
   }
   return article

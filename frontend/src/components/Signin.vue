@@ -28,9 +28,7 @@ export default defineComponent({
         callbacks: {
           signInSuccessWithAuthResult: (authResult) => {
             const user = authResult.user
-            console.log('ログイン成功')
             if (authResult.additionalUserInfo.isNewUser) {
-              console.log('メール送信')
               user.sendEmailVerification()
             }
             return true
