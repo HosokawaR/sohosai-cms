@@ -1,6 +1,7 @@
 import firebase from 'firebase'
 
 export type ContentCategoryValue =
+  | 'unselected'
   | 'general'
   | 'academic'
   | 'art'
@@ -12,21 +13,24 @@ export type ContentState = 'editable' | 'examined' | 'verified' | 'rejection'
 export type ContentCategory = {
   value: ContentCategoryValue
   label: string
-  deadline: Date
+  deadline?: Date
 }
 
 type CommonAriticle = {
   id: string
   title: string
-  contentHtml: string
-  category?: ContentCategoryValue
+  category: ContentCategoryValue
   authorId: string
   state: ContentState
 }
 
-export type Ariticle = CommonAriticle & {
+export type AriticleOverview = CommonAriticle & {
   createAt: Date
   updateAt: Date
+}
+
+export type Ariticle = AriticleOverview & {
+  contentHtml: string
 }
 
 export type FireStoreAriticle = CommonAriticle & {

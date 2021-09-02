@@ -16,26 +16,26 @@
   </div>
 </template>
 
-<script lang="ts">import { paths } from "@/const/config";
-import { defineComponent } from "vue-demi";
-import { useRouter } from "vue-router";
-import Button from "./Button.vue";
+<script lang="ts">
+import { paths } from '@/const/config'
+import { defineComponent } from 'vue-demi'
+import { useRouter } from 'vue-router'
+import Button from './Button.vue'
 
 export default defineComponent({
   components: {
-    Button
+    Button,
   },
   setup() {
-    const router = useRouter();
+    const router = useRouter()
     const handleStartButton = () => {
       router.push(paths.contents.path())
     }
     return {
-      handleStartButton
+      handleStartButton,
     }
-  }
+  },
 })
-
 </script>
 
 <style lang="scss" scoped>

@@ -12,7 +12,7 @@
 </template>
 
 <script lang="ts">
-import "loaders.css"
+import 'loaders.css'
 import { defineComponent, PropType } from 'vue'
 type ButtonColor = 'primary' | 'secondary'
 

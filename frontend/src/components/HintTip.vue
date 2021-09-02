@@ -14,9 +14,9 @@ export default defineComponent({
   props: {
     color: {
       type: String,
-      default: "gray"
-    }
-  }
+      default: 'gray',
+    },
+  },
 })
 </script>
 

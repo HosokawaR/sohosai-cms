@@ -7,9 +7,17 @@
       <p>ブログのように sohosai.com 上に記事を投稿できます。</p>
     </div>
     <div v-for="article in articles" :key="article.title">
-      <CardArticle :article="article" action="編集" @click="handleEditArticle" />
+      <CardArticle
+        :article="article"
+        action="編集"
+        @click="handleEditArticle"
+      />
     </div>
-    <Button class="create-button" @click="handleCreateArticle" text="新しい記事を作成する" />
+    <Button
+      class="create-button"
+      @click="handleCreateArticle"
+      text="新しい記事を作成する"
+    />
     <div class="heading">URL 掲載申請</div>
     <div class="description">
       <p>
@@ -22,19 +30,15 @@
 </template>
 
 <script lang="ts">
-import 'firebase/firestore'
+import { createArticle } from '@/utls/createArticle'
 import { defineComponent, ref } from 'vue'
+import { getContentsByUserId } from '@/utls/getContentsByUser'
+import { getUser } from '@/utls/getUser'
 import { paths } from '@/const/config'
+import { useRouter } from 'vue-router'
 import Breadcrumbs from '@/components/Breadcrumbs.vue'
 import Button from '@/components/Button.vue'
-import firebase from 'firebase'
-import { useRouter } from 'vue-router'
-import 'firebase/auth'
-import { getUser } from '@/utls/getUser'
-import 'firebase/firestore'
-import { getContentsByUserId } from '@/utls/getContentsByUserId'
 import CardArticle from '@/components/CardArticle.vue'
-import { Ariticle } from '@/types/type'
 import Title from './Title.vue'
 
 export default defineComponent({
@@ -47,29 +51,15 @@ export default defineComponent({
   async setup() {
     const router = useRouter()
     const user = getUser()
-    if (!user) return;
+    if (!user) return
     const navigations = ref([
       { label: paths.top.label(), path: paths.top.path() },
       { label: paths.contents.label(), path: paths.contents.path() },
     ])
     const { articles } = await getContentsByUserId(user?.uid || '')
     const handleCreateArticle = async () => {
-      const now = new Date()
-      const doc: Ariticle = {
-        id: '',
-        title: now.toLocaleString() + ' に作成した記事',
-        contentHtml: '',
-        updateAt: now,
-        createAt: now,
-        authorId: user.uid,
-        state: "editable"
-      }
-      const ref = await firebase
-        .firestore()
-        .collection(`contents/${user.uid}/articles`)
-        .doc()
-      ref.set({ ...doc, id: ref.id })
-      router.push(paths.editArticle.path(ref.id))
+      const id = await createArticle(user.uid)
+      router.push(paths.editArticle.path(id))
     }
     const handleEditArticle = (articleId: string) => {
       router.push(paths.editArticle.path(articleId))

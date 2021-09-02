@@ -19,6 +19,7 @@ if (location.hostname === 'localhost') {
   firebase.auth().useEmulator('http://localhost:9099')
   firebase.firestore().useEmulator('localhost', 8080)
   firebase.functions().useEmulator('localhost', 5001)
+  firebase.storage().useEmulator('localhost', 9199)
 }
 
 createApp(App).use(router).mount('#app')

@@ -1,9 +1,15 @@
-import { Ariticle, FireStoreAriticle } from '@/types/type'
+import { AriticleOverview, FireStoreAriticle } from '@/types/type'
 import firebase from 'firebase'
 import 'firebase/firestore'
 
-export const getContents = async () => {
-  const articles: Ariticle[] = []
+/**
+ * コンテンツ一覧を取得する
+ * auditor 以外が使用すると権限エラーになる
+ */
+export const getContents = async (): Promise<{
+  articles: AriticleOverview[]
+}> => {
+  const articles: AriticleOverview[] = []
   await firebase
     .firestore()
     .collectionGroup(`articles`)
@@ -15,7 +21,7 @@ export const getContents = async () => {
           ...article,
           createAt: article.createAt.toDate(),
           updateAt: article.updateAt.toDate(),
-        } as Ariticle)
+        } as AriticleOverview)
       })
     })
   return { articles }

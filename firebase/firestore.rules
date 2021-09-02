@@ -18,7 +18,7 @@ service cloud.firestore {
 
     // コンテンツの種類ごとの作成期限・編集期限を設ける
     match /contents/{userId}/articles/{article} {
-      allow write: if owner(userId) && validState(userId);
+      allow write: if owner(userId);
       allow read: if owner(userId); 
     }
 

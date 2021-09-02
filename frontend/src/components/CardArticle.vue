@@ -34,13 +34,13 @@
 </template>
 
 <script lang="ts">
-import { Ariticle } from '@/types/type'
+import { AriticleOverview } from '@/types/type'
 import { defineComponent, PropType } from 'vue'
 import Button from './Button.vue'
 import HintTip from './HintTip.vue'
 
 type Props = {
-  article: Ariticle
+  article: AriticleOverview
 }
 
 export default defineComponent({
@@ -50,7 +50,7 @@ export default defineComponent({
   },
   props: {
     article: {
-      type: Object as PropType<Ariticle>,
+      type: Object as PropType<AriticleOverview>,
       required: true,
     },
     action: {

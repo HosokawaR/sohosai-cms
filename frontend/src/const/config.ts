@@ -43,8 +43,11 @@ export const paths = Object.freeze({
   },
 })
 
-// TODO: ContentCategoryValue 型をつける
-export const contentCategory :ContentCategory[] = [
+export const contentCategory: ContentCategory[] = [
+  {
+    value: 'unselected',
+    label: '未選択',
+  },
   {
     value: 'general',
     label: '一般企画',

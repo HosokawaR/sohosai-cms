@@ -11,15 +11,15 @@
   </router-view>
 </template>
 
-<script lang="ts">import { defineComponent } from "vue-demi";
-import Loading from "./components/ScreenLoading.vue";
+<script lang="ts">
+import { defineComponent } from 'vue-demi'
+import Loading from './components/ScreenLoading.vue'
 
 export default defineComponent({
   components: {
-    Loading
-  }
+    Loading,
+  },
 })
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

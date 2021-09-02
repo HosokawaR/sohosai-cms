@@ -4,17 +4,20 @@
     <div class="wrap">
       <div class="heading">
         企画区分
-        <HintTip>応募した企画の種類を選択してください。どれにも当てはまらない方は「その他」を選択してください。</HintTip>
+        <HintTip
+          >応募した企画の種類を選択してください。どれにも当てはまらない方は「その他」を選択してください。</HintTip
+        >
       </div>
       <Select v-model="category" :options="contentCategory" />
-      <div v-if="contentCategory.some((v) => v.value === category)" class="deadline-note">
+      <div
+        v-if="contentCategory.find((v) => v.value === category)?.deadline"
+        class="deadline-note"
+      >
         <p>
           {{
             contentCategory.find((v) => v.value === category)?.label
           }}の申請期限は
-          <span
-            class="strong"
-          >
+          <span class="strong">
             {{
               contentCategory
                 .find((v) => v.value === category)
@@ -28,13 +31,20 @@
     <div class="wrap title-wrap">
       <div class="heading">
         タイトル
-        <HintTip>文字数制限はありませんが、長い場合は見切れることがあります。</HintTip>
+        <HintTip
+          >文字数制限はありませんが、長い場合は見切れることがあります。</HintTip
+        >
       </div>
       <FieldText v-model="title" />
     </div>
     <div class="wrap content-wrap">
       <div class="heading">本文</div>
-      <QuillEditor theme="snow" toolbar="full" v-model:content="contentHtml" contentType="html" />
+      <QuillEditor
+        theme="snow"
+        toolbar="full"
+        v-model:content="contentHtml"
+        contentType="html"
+      />
     </div>
     <Button @click="handlePostClick" :text="saveButtonText" :loading="saving" />
   </div>
@@ -43,20 +53,20 @@
 <script lang="ts">
 import '@vueup/vue-quill/dist/vue-quill.snow.css'
 import 'firebase/firestore'
-import { defineComponent, ref } from 'vue'
-import { getUser } from '@/utls/getUser'
 import { contentCategory, paths } from '@/const/config'
+import { defineComponent, ref } from 'vue'
+import { getArticleByUserAndId } from '@/utls/getArticleByUserAndId'
+import { getUser } from '@/utls/getUser'
+import { promiseTimeout } from '@vueuse/core'
 import { QuillEditor } from '@vueup/vue-quill'
+import { updateArticleByUserAndId } from '@/utls/updateArticleByUserAndId'
 import { useRoute } from 'vue-router'
 import { useToggle } from '@vueuse/core'
 import Breadcrumbs from './Breadcrumbs.vue'
 import Button from './Button.vue'
 import FieldText from '@/components/FieldText.vue'
-import firebase from 'firebase'
-import Select from '@/components/Select.vue'
 import HintTip from './HintTip.vue'
-import { promiseTimeout } from '@vueuse/core'
-import { getContentsByUserId } from '@/utls/getContentsByUserId'
+import Select from '@/components/Select.vue'
 
 export default defineComponent({
   components: {
@@ -72,52 +82,54 @@ export default defineComponent({
     const articleId = String(route.params.id)
     const [applied, toggleApplied] = useToggle(false)
     const user = getUser()
-    if (!user) return;
-    const { articles } = await getContentsByUserId(user.uid)
-    const article = articles.find(article => article.id === articleId)
-    if (!article) return;
-    const saveButtonText = ref("保存する")
-    const category = ref(article.category || '')
+    if (!user) return
+    const saveButtonText = ref('保存する')
+    const article = await getArticleByUserAndId(user.uid, articleId)
     const title = ref(article.title)
     const contentHtml = ref(article.contentHtml)
+    const category = ref(article.category)
     const navigations = ref([
       { label: paths.contents.label(), path: paths.contents.path() },
       {
-        label: paths.editArticle.label(article?.title || ''),
-        path: paths.editArticle.path(String(articleId)),
+        label: paths.editArticle.label(article.title),
+        path: paths.editArticle.path(articleId),
       },
     ])
     const saving = ref(false)
     const handlePostClick = async () => {
-      const doc = {
-        title: title.value,
-        contentHtml: contentHtml.value,
-        updateAt: new Date(),
-        category: category.value,
+      if (category.value === 'unselected') {
+        alert('企画区分を選択してください。')
+        return
       }
       saving.value = true
-      saveButtonText.value = "保存中"
-      await firebase
-        .firestore()
-        .doc(`contents/${user?.uid}/articles/${articleId}`)
-        .update(doc)
+      saveButtonText.value = '保存中'
+      const newArticle = {
+        ...article,
+        title: title.value,
+        category: category.value,
+        contentHtml: contentHtml.value,
+      }
+      console.log(newArticle)
+
+      await updateArticleByUserAndId(newArticle, user.uid)
       saving.value = false
-      saveButtonText.value = "保存完了"
+      saveButtonText.value = '保存完了'
       await promiseTimeout(2000)
-      saveButtonText.value = "保存する"
+      saveButtonText.value = '保存する'
     }
 
     return {
-      title,
-      contentHtml,
       navigations,
       handlePostClick,
       applied,
       toggleApplied,
-      category,
       contentCategory,
       saving,
-      saveButtonText
+      saveButtonText,
+      article,
+      category,
+      contentHtml,
+      title,
     }
   },
 })
@@ -125,6 +137,7 @@ export default defineComponent({
 
 <style lang="scss" scoped>
 .wrap {
+  width: clamp(1px, 100rem, 100%);
   margin-bottom: 4rem;
 }
 .heading {
@@ -144,6 +157,10 @@ export default defineComponent({
   }
   ::v-deep(.ql-editor) {
     line-height: 1.7;
+  }
+  ::v-deep(img) {
+    text-align: center;
+    max-width: 100%;
   }
 }
 

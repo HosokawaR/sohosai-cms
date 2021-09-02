@@ -76,5 +76,4 @@ export default defineComponent({})
     box-shadow: 0 2.5em 0 0;
   }
 }
-
 </style>

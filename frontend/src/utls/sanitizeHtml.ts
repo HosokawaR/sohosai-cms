@@ -1,8 +1,6 @@
 import _sanitizeHtml from 'sanitize-html'
 
-export const sanitizeHtml = (html: string) => {
-  console.log(html)
-
+export const sanitizeHtml = (html: string): string => {
   const sanitizedHtml = _sanitizeHtml(html, {
     allowedTags: _sanitizeHtml.defaults.allowedTags.concat(['img', 'iframe']),
     allowedAttributes: {
@@ -19,7 +17,5 @@ export const sanitizeHtml = (html: string) => {
     },
     allowedIframeHostnames: ['www.youtube.com'],
   })
-  console.log(sanitizedHtml)
-
   return sanitizedHtml
 }

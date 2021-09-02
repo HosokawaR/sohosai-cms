@@ -11,11 +11,18 @@
             <div class="account_item display-name">{{ user.displayName }}</div>
             <div class="account_item email">{{ user.email }}</div>
             <div v-if="!user.emailVerified" class="account_item">
-              <span class="email-verified-alert">メールアドレスを認証して下さい。</span>
-              <HintTip
-                color="white"
-              >{{ user.email }} にメールアドレス認証用の確認メールをお送りしました。メールアドレスが未認証の状態だと、投稿コンテンツが却下される場合があります。</HintTip>
-              <button @click="handleResendButton">{{ resendButtonText }}</button>
+              <span class="email-verified-alert"
+                >メールアドレスを認証して下さい。</span
+              >
+              <HintTip color="white"
+                >{{
+                  user.email
+                }}
+                にメールアドレス認証用の確認メールをお送りしました。メールアドレスが未認証の状態だと、投稿コンテンツが却下される場合があります。</HintTip
+              >
+              <button @click="handleResendButton">
+                {{ resendButtonText }}
+              </button>
             </div>
           </div>
           <span class="material-icons" @click="signout">logout</span>
@@ -31,7 +38,9 @@
           :key="item.label"
           class="nav-item"
           @click="$router.push(item.link)"
-        >{{ item.label }}</button>
+        >
+          {{ item.label }}
+        </button>
       </nav>
     </div>
     <div class="slot">
@@ -51,7 +60,7 @@ import HintTip from './HintTip.vue'
 
 export default defineComponent({
   components: {
-    HintTip
+    HintTip,
   },
   setup() {
     const router = useRouter()
@@ -75,9 +84,9 @@ export default defineComponent({
         }
       })
     }
-    const resendButtonText = ref("認証メールを再送信")
+    const resendButtonText = ref('認証メールを再送信')
     const handleResendButton = async () => {
-      resendButtonText.value = "送信しました"
+      resendButtonText.value = '送信しました'
       await firebase.auth().currentUser?.sendEmailVerification()
     }
 
@@ -87,7 +96,7 @@ export default defineComponent({
       user,
       paths,
       handleResendButton,
-      resendButtonText
+      resendButtonText,
     }
   },
 })

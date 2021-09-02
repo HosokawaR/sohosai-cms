@@ -2,7 +2,9 @@
   <div class="signin">
     <div id="firebaseui-auth-container"></div>
     <div class="grand">
-      <div class="inner">※「tsukuba.ac.jp」で終わるメールアドレスをご使用ください。</div>
+      <div class="inner">
+        ※「tsukuba.ac.jp」で終わるメールアドレスをご使用ください。
+      </div>
     </div>
   </div>
 </template>
@@ -26,14 +28,14 @@ export default defineComponent({
         callbacks: {
           signInSuccessWithAuthResult: (authResult) => {
             const user = authResult.user
-            console.log("ログイン成功");
+            console.log('ログイン成功')
             if (authResult.additionalUserInfo.isNewUser) {
-              console.log("メール送信");
-              user.sendEmailVerification();
+              console.log('メール送信')
+              user.sendEmailVerification()
             }
-            return true;
-          }
-        }
+            return true
+          },
+        },
       })
     })
   },

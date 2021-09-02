@@ -1,8 +1,8 @@
+import 'firebase/firestore'
 import { Ariticle, FireStoreAriticle } from '@/types/type'
 import firebase from 'firebase'
-import 'firebase/firestore'
 
-export const getArticleById = async (id: string) => {
+export const getArticleById = async (id: string): Promise<Ariticle> => {
   const articles: Ariticle[] = []
   await firebase
     .firestore()
